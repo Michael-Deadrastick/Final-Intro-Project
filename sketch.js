@@ -70,21 +70,31 @@ const levels = [
   [
     "     ww      ",
     "       b  o r b  c",
-    " wwww  wwwwwwwwwwwwwD"
+    "wwwwwwwwwwwwwwwwwww   w",
+    "w                     w",
+    "w                     w",
+    "w D                   w",
+    "wwwwwwwwwwwwwwwwwww   w",
   ],
   [
-    "     ww   c   ",
-    "      b o o  b",
-    " wwww wwwwwwwwww wwwD"       
+    "                                 D",  
+    "                            wwwwww", 
+    "                           w",  
+    "     ww   c               w",
+    "      b o o  b           w",
+    " wwww wwwwwwwwww www  w "       
   ],
   [
     "     ww      ",
     "      b o o  b",
     " wwww wwwwwwwwww wwwww",
     " w                   w",
+    " w         c         w",
+    " w     b   r     b   w",
+    " wwwwwwwwwwwwwwwwww  w",
     " w                   w",
-    " w                   w",
-    " wwwwwwwwwwwwwwwwww  w"
+    " w D                 w",
+    " wwwwwwwwwwwwwwwwwwwww",
   ]
 ]
   
@@ -92,7 +102,7 @@ let levelNum = 0
 
 scene("game",() => {
   
-  let hp = 2
+  let hp = 3
   
   let hasKey = false
   
@@ -108,7 +118,7 @@ scene("game",() => {
   
   const player = add([
       sprite("hero"),
-      pos(level.getPos(2,0)),
+      pos(level.getPos(2,-1)),
       area({scale:0.5}),
       solid(),
       origin("bot"),
@@ -118,6 +128,7 @@ scene("game",() => {
         "jumpSpeed": 350     
       }
   ]);
+  
   player.play("idle")
   
   onUpdate("enemy",(e) => {
