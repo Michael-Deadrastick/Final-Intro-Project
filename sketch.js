@@ -62,12 +62,31 @@ const levelConfig = {
       "xVel":30
     }
   ],
-
-
+ "S": () => [
+    "sword",
+    sprite("sword"),
+    area({
+      "scale":0.60
+    }),
+    origin("center")
+   ],
+  "P.h":() => [
+    "heal",
+    sprite("wall"), 
+    area(),
+    opacity(0)
+  ],
+    "P.p":() => [
+    "poison",
+    sprite("wall"), 
+    area(),
+    opacity(0)
+  ],
 }
 
 const levels = [
   [
+    "      S       ",
     "     ww      ",
     "       b  o r b  c",
     "wwwwwwwwwwwwwwwwwww   w",
@@ -86,7 +105,7 @@ const levels = [
   ],
   [
     "     ww      ",
-    "      b o o  b",
+    "      b o o  b      c",
     " wwww wwwwwwwwww wwwww",
     " w                   w",
     " w         c         w",
@@ -144,7 +163,7 @@ scene("game",() => {
     e.flipX(false)
   }
   })
-  
+  //make sure jumping is in proper working order 
     onKeyPress("space",() => {
     if (player.isGrounded()) {
     player.jump(player.jumpSpeed)
@@ -155,7 +174,7 @@ scene("game",() => {
   player.onCollide('wall',() => {
     player.play("idle")
   })
-  
+  //enemies do damage
   player.onCollide("enemy",() => {
     addKaboom(player.pos)
     hp--
@@ -165,12 +184,12 @@ scene("game",() => {
     })
     }
   })
-  
+  //if the chest opens, the player gets to use the door
   player.onCollide("chest", (c) => {
     c.play("open")
     hasKey = true
   })
-  
+  //door is the passageway to the next level
   player.onCollide("door",() => {
     if(hasKey) {
       if(levelNum == levels.length -1) {
@@ -261,7 +280,7 @@ scene("menu",() => {
   go("menu")  
   })
 })
-
+//go to win scene
 scene("win",() => {
   add([
     text("You Win!"),
@@ -279,7 +298,7 @@ scene("win",() => {
     go("game")
   })
 })
-
+//go to you lose screen
 scene("lose",() => {
     add([
     text("You Lose!"),
