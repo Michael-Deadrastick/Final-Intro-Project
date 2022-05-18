@@ -70,14 +70,8 @@ const levelConfig = {
     }),
     origin("center")
    ],
-  "P.h":() => [
+  "H":() => [
     "heal",
-    sprite("wall"), 
-    area(),
-    opacity(0)
-  ],
-    "P.p":() => [
-    "poison",
     sprite("wall"), 
     area(),
     opacity(0)
@@ -88,7 +82,7 @@ const levels = [
   [
     "      S       ",
     "     ww      ",
-    "       b  o r b  c",
+    "       b  o r b  c    P",
     "wwwwwwwwwwwwwwwwwww   w",
     "w                     w",
     "w                     w",
@@ -148,8 +142,10 @@ scene("game",() => {
       }
   ]);
   
-  player.play("idle")
+  player.play("idle") 
   
+onClick((""))
+
   onUpdate("enemy",(e) => {
     e.move(e.xVel,0)
   })
@@ -210,6 +206,7 @@ scene("game",() => {
     go("lose")
   })
   
+//killbox   
 add([
   rect(10000,10000),
   "killBox", //tag
@@ -238,7 +235,9 @@ add([
     player.play("idle")
   })
   
-}) //CLOSE game
+})
+
+//menu scene
 
 scene("menu",() => {
   add([
