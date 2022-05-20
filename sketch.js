@@ -62,13 +62,12 @@ const levelConfig = {
       "xVel":30
     }
   ],
- "S": () => [
+ "s": () => [
     "sword",
     sprite("sword"),
-    area({
-      "scale":0.60
-    }),
-    origin("center")
+    area(),
+   origin("bot"),
+   z(1)
    ],
   "H":() => [
     "heal",
@@ -80,7 +79,7 @@ const levelConfig = {
 
 const levels = [
   [
-    "      S       ",
+    "      s       ",
     "     ww      ",
     "       b  o r b  c    P",
     "wwwwwwwwwwwwwwwwwww   w",
@@ -132,7 +131,7 @@ scene("game",() => {
   const player = add([
       sprite("hero"),
       pos(level.getPos(2,-1)),
-      area({scale:0.5}),
+      area({scale:1}),
       solid(),
       origin("bot"),
       body(),    
@@ -143,9 +142,12 @@ scene("game",() => {
   ]);
   
   player.play("idle") 
-  
-onClick((""))
-
+//equip sword
+ player.onCollide("sword", (s) => {
+   s.use(follow(player, vec2(-5,10)))
+ })
+//use sword
+  onKeyPress("e")
   onUpdate("enemy",(e) => {
     e.move(e.xVel,0)
   })
