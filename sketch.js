@@ -69,11 +69,15 @@ const levelConfig = {
    origin("bot"),
    z(1)
    ],
-  "H":() => [
+ "h":() => [
     "heal",
-    sprite("wall"), 
-    area(),
-    opacity(0)
+    sprite("coin",{
+      "anim":"spin"
+    }),
+    area({
+      "scale":0.50
+    }),
+    origin("center"),
   ],
 }
 
@@ -81,7 +85,7 @@ const levels = [
   [
     "      s       ",
     "     ww      ",
-    "       b  o r b  c    P",
+    "       b  o r b  c    h",
     "wwwwwwwwwwwwwwwwwww   w",
     "w                     w",
     "w                     w",
@@ -141,13 +145,18 @@ scene("game",() => {
       }
   ]);
   
-  player.play("idle") 
-//equip sword
+//When colliding with coin, gain one hp point
+  player.onCollide("heal", () => {
+    
+  })
+  
+//Equip Sword
  player.onCollide("sword", (s) => {
-   s.use(follow(player, vec2(-5,10)))
+   s.use(follow(player, vec2(10,-5)))
  })
-//use sword
-  onKeyPress("e")
+
+  player.play("idle") 
+  
   onUpdate("enemy",(e) => {
     e.move(e.xVel,0)
   })
@@ -161,7 +170,10 @@ scene("game",() => {
     e.flipX(false)
   }
   })
-  //make sure jumping is in proper working order 
+  
+
+  
+//make sure jumping is in proper working order 
     onKeyPress("space",() => {
     if (player.isGrounded()) {
     player.jump(player.jumpSpeed)
@@ -176,6 +188,7 @@ scene("game",() => {
   player.onCollide("enemy",() => {
     addKaboom(player.pos)
     hp--
+    hpLabel.text = "hp: "+hp
     if (hp == 0) {
        wait(1,() => {
       go("lose")
@@ -249,7 +262,7 @@ scene("menu",() => {
     color(YELLOW)
   ])
     add([
-    text("and Wizards"),
+    text("vs Monsters"),
     pos(width()/2,height()/2-75),
     origin("center"),
     color(YELLOW)
@@ -280,6 +293,21 @@ scene("menu",() => {
     
   go("menu")  
   })
+    //FullScreen 
+add([
+  rect(100, 100),
+  color(YELLOW),
+  text("fullscreen mode", {
+      size:30
+    }),
+    pos(),
+    "fullScreenButton",
+    area(),
+])
+  
+ onClick("fullScreenButton", () => {
+    fullscreen(!isFullscreen())
+  }) 
 })
 //go to win scene
 scene("win",() => {
