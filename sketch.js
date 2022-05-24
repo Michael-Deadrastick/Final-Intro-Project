@@ -156,7 +156,7 @@ scene("game",() => {
  player.onCollide("sword", (s) => {
    s.use(follow(player, vec2(10,-5)))
  })
-//use sword
+//Use sword
     onCollide("sword", "enemy", (s,e) => {
       if(isKeyDown("e")) {
       addKaboom(e.pos)
@@ -180,7 +180,7 @@ scene("game",() => {
   }
   })
    
-//make sure jumping is in proper working order 
+//Make sure jumping is in proper working order 
     onKeyPress("space",() => {
     if (player.isGrounded()) {
     player.jump(player.jumpSpeed)
@@ -191,7 +191,7 @@ scene("game",() => {
   player.onCollide('wall',() => {
     player.play("idle")
   })
-  //enemies do damage
+//Enemies do damage
   player.onCollide("enemy",() => {
     addKaboom(player.pos)
     hp--
@@ -202,7 +202,7 @@ scene("game",() => {
     })
     }
   })
-  //if the chest opens, the player gets to use the door
+//If the chest(s) are opened, then the player can use the door. 
   player.onCollide("chest", (c) => {
     c.play("open")
     hasKey = true
@@ -228,7 +228,7 @@ scene("game",() => {
     go("lose")
   })
   
-//killbox   
+//Killbox for when the player falls off the map
 add([
   rect(10000,10000),
   "killBox", //tag
@@ -269,7 +269,7 @@ add([
   })
 })
 
-//menu scene
+//Menu Scene
 scene("menu",() => {
   add([
     text("Knights"),
@@ -309,7 +309,7 @@ scene("menu",() => {
     
   go("menu")  
   })
-    //FullScreen 
+//FullScreen 
 add([
   rect(100, 100),
   color(YELLOW),
