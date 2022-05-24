@@ -93,20 +93,20 @@ const levels = [
     "wwwwwwwwwwwwwwwwwww   w",
   ],
   [
-    "                                 D",  
-    "                            wwwwww", 
-    "                           w",  
-    "     ww   c               w",
-    "      b o o  b           w",
-    " wwww wwwwwwwwww www  w "       
+    "                                D        ",  
+    "                            wwwwww       ", 
+    "      s                 h  w             ",  
+    "     ww   c               w              ",
+    "      b o o  b           w               ",
+    " wwww wwwwwwwwww www  ww                 "       
   ],
   [
-    "     ww      ",
+    "     ww          s",
     "      b o o  b      c",
-    " wwww wwwwwwwwww wwwww",
-    " w                   w",
+    " wwww wwwwwwwwww  wwww",
     " w         c         w",
-    " w     b   r     b   w",
+    " w                   w",
+    " w  h   b   r     b  w",
     " wwwwwwwwwwwwwwwwww  w",
     " w                   w",
     " w D                 w",
@@ -124,9 +124,9 @@ scene("game",() => {
   
   const level = addLevel(levels[levelNum],levelConfig)
 
-  const hpLabel = add([
+ const hpLabel = add([
     text("hp: "+hp,{
-      "size":16
+      "size":25
     }),
     pos(16,16),
     fixed()
@@ -144,17 +144,26 @@ scene("game",() => {
         "jumpSpeed": 350     
       }
   ]);
-  
-//When colliding with coin, gain one hp point
-  player.onCollide("heal", () => {
-    
+   
+//When colliding with the lucky coin, gain one hp point
+  player.onCollide("heal", (h) => {
+    hp += 1
+    destroy(h)
+    let coin = h 
   })
   
 //Equip Sword
  player.onCollide("sword", (s) => {
    s.use(follow(player, vec2(10,-5)))
  })
-
+//use sword
+    onCollide("sword", "enemy", (s,e) => {
+      if(isKeyDown("e")) {
+      addKaboom(e.pos)
+      destroy(e)
+      }
+    }) 
+  
   player.play("idle") 
   
   onUpdate("enemy",(e) => {
@@ -170,9 +179,7 @@ scene("game",() => {
     e.flipX(false)
   }
   })
-  
-
-  
+   
 //make sure jumping is in proper working order 
     onKeyPress("space",() => {
     if (player.isGrounded()) {
@@ -236,24 +243,33 @@ add([
     player.move(player.speed,0)    
     player.flipX(false)
   })
-  
+  onKeyDown("d",() => {
+    player.move(player.speed,0)    
+    player.flipX(false)
+  })
   onKeyDown("left",() => {
     player.move(-player.speed,0)  
     player.flipX(true)
   })
-  
+  onKeyDown("a",() => {
+    player.move(-player.speed,0)  
+    player.flipX(true)
+  })
   onKeyPress(["right","left"],() => {
     player.play("run")
   })
-  
+  onKeyPress(["d","a"], () => {
+    player.play("run")
+  })
   onKeyRelease(["right","left"],() => {
     player.play("idle")
   })
-  
+  onKeyRelease(["d","a"],() => {
+    player.play("idle")
+  })
 })
 
 //menu scene
-
 scene("menu",() => {
   add([
     text("Knights"),
